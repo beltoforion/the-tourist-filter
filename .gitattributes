@@ -1,2 +1,4 @@
 # Auto detect text files and perform LF normalization
-* text=auto
+* text=false
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text

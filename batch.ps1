@@ -28,8 +28,8 @@ python ./exterminate-all-humans.py -i ./stack5 -m MEDIAN
 python ./exterminate-all-humans.py -i ./stack5 -m NOISE_AND_MEDIAN
 python ./exterminate-all-humans.py -i ./stack5 -m INPAINT_AND_MEDIAN
 
-python ./exterminate-all-humans.py -i ./stack1 -m CUT
-python ./exterminate-all-humans.py -i ./stack1 -m CUT_AND_MEDIAN
-python ./exterminate-all-humans.py -i ./stack1 -m MEDIAN
-python ./exterminate-all-humans.py6 -i ./stack1 -m NOISE_AND_MEDIAN
-python ./exterminate-all-humans.py -i ./stack1 -m INPAINT_AND_MEDIAN
+python ./exterminate-all-humans.py -i ./stack6 -m CUT
+python ./exterminate-all-humans.py -i ./stack6 -m CUT_AND_MEDIAN
+python ./exterminate-all-humans.py -i ./stack6 -m MEDIAN
+python ./exterminate-all-humans.py6 -i ./stack6 -m NOISE_AND_MEDIAN
+python ./exterminate-all-humans.py -i ./stack6 -m INPAINT_AND_MEDIAN

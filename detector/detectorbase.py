@@ -74,7 +74,7 @@ class DetectorBase(ABC):
 
         non_zero_count = cv2.countNonZero(self._mask_global)  
         self._perc_complete = 100 * non_zero_count / (width*height)
-        print(f'image {self._image_index}: remaining pixels associated with people: {100-self._perc_complete:.3f} %')
+        print(f'image {self._image_index}: remaining pixels associated with people: {100-self._perc_complete:.3f} %', end='\r')
 
     @abstractmethod
     def next_image_impl(self, image):

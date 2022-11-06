@@ -37,8 +37,8 @@ class YoloOnnxDetector(DetectorBase):
         self.__method = method
         self.__box_upscale = box_upscale
 
-#        self.__net = cv2.dnn.readNet('yolov7_736x1280.onnx')
-        self.__net = cv2.dnn.readNet('yolov7-tiny_736x1280.onnx')        
+        self.__net = cv2.dnn.readNet('yolov7_736x1280.onnx')
+#        self.__net = cv2.dnn.readNet('yolov7-tiny_736x1280.onnx')        
         self.__net_width = 1280
         self.__net_height = 736
 

@@ -53,7 +53,7 @@ def main():
     print(f' - input: {args.input}')
     print(f' - method: {args.method}')    
 
-    detector = YoloOnnxDetector(method=args.method, conf_thresh=0.001, nms_thresh=0.95, score_thresh=0.1, box_upscale=(1.05, 1.1))
+    detector = YoloOnnxDetector(method=args.method, conf_thresh=0.01, nms_thresh=0.9, score_thresh=0.1, box_upscale=(1.05, 1.1))
 
     input = pathlib.Path(args.input)
     if not input.exists():
@@ -63,9 +63,4 @@ def main():
     process_folder(pathlib.Path(args.input), detector)
 
 if __name__ == "__main__":
-#    try:
-        main()
-#    except Exception as exc:
-#        print('\r\nError:')
-#        print('------')
-#        print(f'{str(exc)}\r\n')
+    main()

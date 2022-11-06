@@ -1,8 +1,5 @@
-from cv2 import CV_32F, CV_8U
 import numpy as np
-import time
 import cv2
-import random 
 
 from abc import ABC, abstractmethod
 
@@ -62,13 +59,25 @@ class DetectorBase(ABC):
         height, width, _ = image.shape                  
         display_scale = 500/width
 
+        font                   = cv2.FONT_HERSHEY_DUPLEX
+        fontScale              = 1
+        fontColor              = (0,255,0)
+        thickness              = 2
+        lineType               = 2
+
         # compute normalized heat map
         heatmap = cv2.normalize(self._mask_sum, None, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         heatmap = cv2.cvtColor(heatmap, cv2.COLOR_GRAY2BGR)
+        mask_global = cv2.cvtColor(self._mask_global, cv2.COLOR_GRAY2BGR)
 
         images_left = np.vstack((image, self._image_filtered[:,:,0:3]))
-        images_right = np.vstack((heatmap, cv2.cvtColor(self._mask_global, cv2.COLOR_GRAY2BGR)))
+        images_right = np.vstack((heatmap, mask_global))
         images_4x4 = np.hstack((images_left, images_right))
+        cv2.putText(images_4x4, 'YOLO heatmap', (width + 10, 30), font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(images_4x4, 'Input image', (10, height + 30), font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(images_4x4, 'Filtered image', (10, 30), font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(images_4x4, 'Global coverage', (width + 10, height + 30), font, fontScale, fontColor, thickness, lineType)
+
         cv2.imshow('Images', cv2.resize(images_4x4, (int(2*display_scale*width), int(2*display_scale*height))))
         cv2.waitKey(1)
 

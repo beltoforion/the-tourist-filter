@@ -14,9 +14,14 @@ class DetectorBase(ABC):
         self._image_filtered = None
         self._perc_complete = 0
         self._image_index = 0
+        self._video_out = None
+        
         self.start_impl()
 
     def finish(self):
+        if not self._video_out is None:
+            self._video_out.release()
+
         return self.finish_impl()
 
     @abstractmethod
@@ -32,6 +37,14 @@ class DetectorBase(ABC):
         return self._image_filtered
 
     @property
+    def video_file(self):
+        return self._video_file
+
+    @video_file.setter
+    def video_file(self, value):
+        self._video_file = value
+
+    @property
     @abstractmethod
     def name_detailed(self):
         pass
@@ -41,11 +54,20 @@ class DetectorBase(ABC):
         return self._name
 
     def next_image(self, image):
+        # prepare display
+        height, width, _ = image.shape                  
+        ds = 700/width
+
         if self._mask is None:
             self._mask = np.zeros(image.shape[:2], dtype="uint8")
             self._mask_global = np.zeros(image.shape[:2], dtype="uint8")
             self._mask_sum = np.zeros(image.shape[:2], dtype="int")
             
+            if not self.video_file is None:
+                h, w = (int(ds*height*2), int(ds*width*2))
+                self._video_out = cv2.VideoWriter(self.video_file, cv2.VideoWriter_fourcc(*'mp4v'), 2.5, (w, h))
+#                self._video_out = cv2.VideoWriter(self.video_file, cv2.VideoWriter_fourcc(*'vp80'), 2.5, (w, h))
+
         if self._image_filtered is None:
             self._image_filtered = image.copy()
 
@@ -55,15 +77,11 @@ class DetectorBase(ABC):
         # Compute heat map by summing up all masks
         self._mask_sum[:] += 255 - self._mask[:]
 
-        # prepare display
-        height, width, _ = image.shape                  
-        display_scale = 500/width
-
         font                   = cv2.FONT_HERSHEY_DUPLEX
         fontScale              = 1
         fontColor              = (0,255,0)
-        thickness              = 2
-        lineType               = 2
+        thickness              = 1
+        lineType               = 1
 
         # compute normalized heat map
         heatmap = cv2.normalize(self._mask_sum, None, 0, 255, norm_type=cv2.NORM_MINMAX, dtype=cv2.CV_8U)
@@ -73,12 +91,17 @@ class DetectorBase(ABC):
         images_left = np.vstack((image, self._image_filtered[:,:,0:3]))
         images_right = np.vstack((heatmap, mask_global))
         images_4x4 = np.hstack((images_left, images_right))
-        cv2.putText(images_4x4, 'YOLO heatmap', (width + 10, 30), font, fontScale, fontColor, thickness, lineType)
-        cv2.putText(images_4x4, 'Input image', (10, height + 30), font, fontScale, fontColor, thickness, lineType)
-        cv2.putText(images_4x4, 'Filtered image', (10, 30), font, fontScale, fontColor, thickness, lineType)
-        cv2.putText(images_4x4, 'Global coverage', (width + 10, height + 30), font, fontScale, fontColor, thickness, lineType)
+        images_4x4 = cv2.resize(images_4x4, (int(2*ds*width), int(2*ds*height)))
 
-        cv2.imshow('Images', cv2.resize(images_4x4, (int(2*display_scale*width), int(2*display_scale*height))))
+        cv2.putText(images_4x4, 'People heatmap', (int(ds*width) + 10 , 30), font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(images_4x4, 'Filtered image', (10, int(ds*height) + 30 ), font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(images_4x4, 'Input image', (10, 30), font, fontScale, fontColor, thickness, lineType)
+        cv2.putText(images_4x4, 'Global coverage', (int(ds*width) + 10, int(ds*height) + 30), font, fontScale, fontColor, thickness, lineType)
+
+        if not self._video_out is None:
+            self._video_out.write(images_4x4)
+
+        cv2.imshow('Images', images_4x4)
         cv2.waitKey(1)
 
         non_zero_count = cv2.countNonZero(self._mask_global)  

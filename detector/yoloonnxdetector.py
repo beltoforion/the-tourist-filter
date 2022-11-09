@@ -1,6 +1,5 @@
 import cv2
 import numpy as np
-import time
 from copy import deepcopy
 from enum import Enum
 from random import random
@@ -138,17 +137,15 @@ class YoloOnnxDetector(DetectorBase):
 
 
     def finish_impl(self):
-        print(f'Image stack size is {len(self.__stack)}.')
-        
         if self.__method == RemovalMethod.INPAINT_AND_MEDIAN or \
            self.__method == RemovalMethod.MEDIAN or \
            self.__method == RemovalMethod.CUT_AND_MEDIAN:
-            print(f'Creating median image from image stack of {len(self.__stack)} images.')
+            print(f'\r\nCreating median image from image stack of {len(self.__stack)} images.')
             image_stack = np.stack(self.__stack)
             composed = np.median(image_stack, axis=0).astype(dtype='uint8')
             return composed
         elif self.__method == RemovalMethod.NOISE_AND_MEDIAN:
-            print(f'Creating median image from image stack of {len(self.__stack)} images.')
+            print(f'\r\nCreating median image from image stack of {len(self.__stack)} images.')
             
             # median requires odd numbers to work properly
             if len(self.__stack) % 2 == 0:
@@ -158,9 +155,9 @@ class YoloOnnxDetector(DetectorBase):
             composed = np.median(image_stack, axis=0).astype(dtype='uint8')
 
             # residual noise needs to be inpainted
-            ret, mask_black = cv2.threshold(composed, 0, 1, cv2.THRESH_BINARY)
+            _, mask_black = cv2.threshold(composed, 0, 1, cv2.THRESH_BINARY)
             mask_black = 255 - mask_black*255
-            ret, mask_white = cv2.threshold(composed, 254, 255, cv2.THRESH_BINARY)
+            _, mask_white = cv2.threshold(composed, 254, 255, cv2.THRESH_BINARY)
             mask = (mask_white + mask_black)[:, :, 0]
             composed = cv2.inpaint(composed, mask, 10, cv2.INPAINT_TELEA)
 

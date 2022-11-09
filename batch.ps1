@@ -1,35 +1,9 @@
-python ./filter-all-tourists.py -i ./stack1 -m CUT
-python ./filter-all-tourists.py -i ./stack1 -m CUT_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack1 -m MEDIAN
-python ./filter-all-tourists.py -i ./stack1 -m NOISE_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack1 -m INPAINT_AND_MEDIAN
-
-python ./filter-all-tourists.py -i ./stack2 -m CUT
-python ./filter-all-tourists.py -i ./stack2 -m CUT_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack2 -m MEDIAN
-python ./filter-all-tourists.py -i ./stack2 -m NOISE_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack2 -m INPAINT_AND_MEDIAN
-
-python ./filter-all-tourists.py -i ./stack3 -m CUT
-python ./filter-all-tourists.py -i ./stack3 -m CUT_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack3 -m MEDIAN
-python ./filter-all-tourists.py -i ./stack3 -m NOISE_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack3 -m INPAINT_AND_MEDIAN
-
-python ./filter-all-tourists.py -i ./stack4 -m CUT
-python ./filter-all-tourists.py -i ./stack4 -m CUT_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack4 -m MEDIAN
-python ./filter-all-tourists.py -i ./stack4 -m NOISE_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack4 -m INPAINT_AND_MEDIAN
-
-python ./filter-all-tourists.py -i ./stack5 -m CUT
-python ./filter-all-tourists.py -i ./stack5 -m CUT_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack5 -m MEDIAN
-python ./filter-all-tourists.py -i ./stack5 -m NOISE_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack5 -m INPAINT_AND_MEDIAN
-
-python ./filter-all-tourists.py -i ./stack6 -m CUT
-python ./filter-all-tourists.py -i ./stack6 -m CUT_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack6 -m MEDIAN
-python ./filter-all-tourists.py -i ./stack6 -m NOISE_AND_MEDIAN
-python ./filter-all-tourists.py -i ./stack6 -m INPAINT_AND_MEDIAN
+for ($i = 1; $i -lt 6; $i++)
+{
+	[string]$folder = [string]::Format("./stack{0}", $i)
+	python ./filter-all-tourists.py -i $folder -m CUT -v ([string]::Format("./video_stack{0}_cut.mp4", $i))
+	python ./filter-all-tourists.py -i $folder -m CUT_AND_MEDIAN -v ([string]::Format("./video_stack{0}_cut_and_median.mp4", $i))
+	python ./filter-all-tourists.py -i $folder -m MEDIAN -v ([string]::Format("./video_stack{0}_median.mp4", $i))
+	python ./filter-all-tourists.py -i $folder -m NOISE_AND_MEDIAN -v ([string]::Format("./video_stack{0}_noise.mp4", $i))
+	python ./filter-all-tourists.py -i $folder -m INPAINT_AND_MEDIAN -v ([string]::Format("./video_stack{0}_inpaint.mp4", $i))
+}

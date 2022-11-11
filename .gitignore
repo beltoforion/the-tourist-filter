@@ -2,7 +2,6 @@ stack?_*.jpg
 *.pyc
 *.png
 .vscode/*
-stack2/*
 stack3/*
 stack4/*
 stack5/*

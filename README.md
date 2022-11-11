@@ -16,4 +16,10 @@ You need python to execute this script. Put your images into a folder and then r
 python ./filter-all-tourists.py -i ./stack1 -m CUT
 ```
 
+## Command Line Options
+
+"-i"<br/> Path to the input folder. Folder must contain a series of images which are alsready properly aligned. Either taken with a tripod or aligned by other means.
+<br/>
+"-m"<br/> Select the method to use CUT, CUT_AND_MEDIAN, MEDIAN, NOISE_AND_MEDIAN, INPAINT_AND_MEDIAN
+
 [video_stack5_cut.webm](https://user-images.githubusercontent.com/2202567/201433129-b832e448-03a4-4c5b-b831-2430dee2d31a.webm)

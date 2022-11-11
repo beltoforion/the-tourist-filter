@@ -9,4 +9,10 @@ and you should have enough images so that every part of the scene is free of peo
 
 ## Usage
 
+You need python to execute this script. Put your images into a folder and then run the script on the content of this folder.
+
+```python
+python ./filter-all-tourists.py -i ./stack1 -m CUT
+```
+
 [video_stack5_cut.webm](https://user-images.githubusercontent.com/2202567/201433129-b832e448-03a4-4c5b-b831-2430dee2d31a.webm)

@@ -1,6 +1,7 @@
 # The Tourist Filter
 
-A collection of different algorithms to remove people from Stacks of images to fully automatically create images without any People.
+A collection of different algorithms to remove people from Stacks of images to fully automatically create images without any People. It works better
+than ordinary Median-Stacking and is capable of removing TOurists without much remainging artifacts.
 
 ## Input images 
 

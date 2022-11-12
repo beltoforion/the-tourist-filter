@@ -241,15 +241,15 @@ class YoloOnnxDetector(DetectorBase):
                             # box is partially outside the image. I dont care...
                             pass
 
+            self._mask_global = cv2.bitwise_or(self._mask, self._mask_global, mask = None)
+            
             # set the mask as the alpha channel of the image
             if self.__method == RemovalMethod.CUT:
                 filtered_image[:, :, 3] = self._mask
-                self._mask_global = cv2.bitwise_or(self._mask, self._mask_global, mask = None)
                 self._add_transparent_image(self._image_filtered, filtered_image)                
                 self.__stack.append(filtered_image)
             elif self.__method == RemovalMethod.CUT_AND_MEDIAN:
                 filtered_image[:, :, 3] = self._mask
-                self._mask_global = cv2.bitwise_or(self._mask, self._mask_global, mask = None)
                 self._add_transparent_image(self._image_filtered, filtered_image)                
                 self.__stack.append(self._image_filtered.copy())
             elif self.__method == RemovalMethod.NOISE_AND_MEDIAN:

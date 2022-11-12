@@ -1,8 +1,8 @@
 # The Tourist Filter
 
-A collection of different algorithms to remove people from Stacks of images to fully automatically create images without any People. It works better
-than ordinary Median-Stacking and is capable of removing Tourists without much remainging artifacts. The basic idea is to combine an object detector
-like YOLOv7 and preprocess the images in a way that will make median stacking more likely to succeed.
+This skript was created to allow nature photography in crowded tourist spots via improved median stacking methods. I wrote it because I made a couple of image stacks during a trip to Island and discovered that median stacking of the images in Photoshop does not produce satisfying results out of the box. The improved median stacking algorithms implemented here will work much better! The basic idea is to combine an object detector like YOLOv7 and preprocess the images in a way that will make median stacking more likely to succeed.
+
+For this purpose i implemented several methods of preprocessing the stack with the help of the YOLOv7 object detector trained on the COCO dataset. 
 
 ![link_cut](https://user-images.githubusercontent.com/2202567/201495454-81ced94b-84b1-462d-9614-6beb505a72e1.jpg)
 

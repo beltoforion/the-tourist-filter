@@ -6,6 +6,10 @@ For this purpose i implemented several methods of preprocessing the stack with t
 
 ![link_cut](https://user-images.githubusercontent.com/2202567/201495454-81ced94b-84b1-462d-9614-6beb505a72e1.jpg)
 
+You can find more details on the accomanying (german) web page:
+https://beltoforion.de/de/touristenfilter/
+(Non-German Readers: Please try the chrome browser as it provides a fairly decend automatic translation of the page. I will probably create a translation if there is sufficient interest in the topic)
+
 ## Input images 
 
 To use this script you need a stack of images either taken on a tripod or aligned by other means. The images should be taken a couple of seconds apart

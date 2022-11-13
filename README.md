@@ -31,7 +31,13 @@ python ./filter-all-tourists.py -i ./stack1 -m CUT
 <br/><br/>
 <b>-v</b><br/> Name of a video file for debug purposes.
 
+## Example
+
+An image stack being processed with an algoithm that is usung YOLOv7 for people detection and is covering all detected people with binary noise.
+
 [video_stack3_noise.webm](https://user-images.githubusercontent.com/2202567/201500754-80de06ca-9552-45a1-b1d6-4a4ec500ba29.webm)
+
+The resulting median stack of the processed series is shown here:
 
 ![stack3_yolo_NOISE_AND_MEDIAN](https://user-images.githubusercontent.com/2202567/201500837-9a376880-a956-4d6d-8eae-61b465a6e735.jpg)
 

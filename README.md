@@ -31,4 +31,10 @@ python ./filter-all-tourists.py -i ./stack1 -m CUT
 <br/><br/>
 <b>-v</b><br/> Name of a video file for debug purposes.
 
+[video_stack3_noise.webm](https://user-images.githubusercontent.com/2202567/201500754-80de06ca-9552-45a1-b1d6-4a4ec500ba29.webm)
+
+![stack3_yolo_NOISE_AND_MEDIAN](https://user-images.githubusercontent.com/2202567/201500837-9a376880-a956-4d6d-8eae-61b465a6e735.jpg)
+
+<!--
 [video_stack5_cut.webm](https://user-images.githubusercontent.com/2202567/201433129-b832e448-03a4-4c5b-b831-2430dee2d31a.webm)
+-->

@@ -8,7 +8,7 @@ For this purpose i implemented several methods of preprocessing the stack with t
 
 ![link_cut](https://user-images.githubusercontent.com/2202567/201495454-81ced94b-84b1-462d-9614-6beb505a72e1.jpg)
 
-You can find more details on the accomanying web page:
+You can find more details on the accompanying web page:
 * english: https://beltoforion.de/en/the-tourist-filter
 * german:  https://beltoforion.de/de/touristenfilter
 

@@ -1,10 +1,12 @@
 import cv2
 import numpy as np
+import argparse
+import pathlib
+import glob
+
 from copy import deepcopy
 from enum import Enum
 from random import random
-import argparse
-
 from detector.detectorbase import DetectorBase
 
 class ArgTypeMixin(Enum):
@@ -19,6 +21,7 @@ class ArgTypeMixin(Enum):
 
     def __str__(self):
         return self.name
+
 
 class RemovalMethod(ArgTypeMixin, Enum):
     CUT = 1
@@ -48,6 +51,17 @@ class YoloOnnxDetector(DetectorBase):
         self.__conf = conf_thresh
         self.__nms = nms_thresh
         self.__score = score_thresh
+
+
+    @property
+    def method(self):
+        return self.__method
+
+
+    @method.setter
+    def method(self, value):
+        self.__method = value
+
 
     @property
     def name_detailed(self):
@@ -277,3 +291,30 @@ class YoloOnnxDetector(DetectorBase):
         # X, Y, Width, Height, Confidence, Class scores of 80 Classes from the YOLO model
         class_ids, confidences, boxes = self.__filter_detection(img_for_yolo, scale, outputs)
         return class_ids, confidences, boxes
+    
+
+    def process_folder(self, image_folder: pathlib.Path):
+        num_images = len(glob.glob1(str(image_folder),"*.jpg"))
+        print(f'\n{self.name}: processing folder {str(image_folder)} with {num_images} images:')
+
+        self.start()
+
+        for file in image_folder.iterdir():
+            if file.suffix != '.jpg':
+                continue
+
+            img = cv2.imread(str(file), cv2.IMREAD_COLOR)
+            self.next_image(img)
+
+        if self.restart_requested():
+            for file in image_folder.iterdir():
+                if file.suffix != '.jpg':
+                    continue
+
+                img = cv2.imread(str(file), cv2.IMREAD_COLOR)
+                self.next_image(img)
+
+        final_result = self.finish()
+
+        outfile = f'{str(image_folder)}_{self.name_detailed}.jpg'
+        cv2.imwrite(outfile, final_result)

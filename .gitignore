@@ -7,3 +7,6 @@ stack4/*
 stack5/*
 stack6/*
 *.mp4
+*.tgz
+build/tourist-filter/*
+tourist-filter-linux/*

@@ -1,45 +1,16 @@
-import cv2
 import os
 import argparse
 import pathlib
-import glob
 
 from detector.yoloonnxdetector import *
-from detector.detectorbase import DetectorBase
-
 from ui.ui_controller import *
+
 
 def dir_or_file(path : str):
     if os.path.isdir(path) or os.path.isfile(path):
         return path
     else:
         raise NotADirectoryError(path)
-
-
-def process_folder(image_folder: pathlib.Path, detector : DetectorBase):
-    num_images = len(glob.glob1(str(image_folder),"*.jpg"))
-    print(f'\n{detector.name}: processing folder {str(image_folder)} with {num_images} images:')
-
-    detector.start()
-
-    for file in image_folder.iterdir():
-        if file.suffix != '.jpg':
-            continue
-
-        img = cv2.imread(str(file), cv2.IMREAD_COLOR)
-        detector.next_image(img)
-
-    if detector.restart_requested():
-        for file in image_folder.iterdir():
-            if file.suffix != '.jpg':
-                continue
-
-            img = cv2.imread(str(file), cv2.IMREAD_COLOR)
-            detector.next_image(img)
-
-    final_result = detector.finish()
-
-    cv2.imwrite(f'.\{str(image_folder)}_{detector.name_detailed}.jpg', final_result)
 
 
 def main():

@@ -2,6 +2,8 @@ import numpy as np
 import cv2
 
 from abc import ABC, abstractmethod
+from detector.displaybase import DisplayBase
+
 
 class DetectorBase(ABC):
     def __init__(self, name):
@@ -53,6 +55,11 @@ class DetectorBase(ABC):
     def name(self):
         return self._name
 
+
+    def setDisplay(self, display : DisplayBase):
+        self.__display = display
+
+
     def next_image(self, image):
         # prepare display
         height, width, _ = image.shape                  
@@ -101,12 +108,16 @@ class DetectorBase(ABC):
         if not self._video_out is None:
             self._video_out.write(images_4x4)
 
-        cv2.imshow('Images', images_4x4)
-        cv2.waitKey(1)
+        if not self.__display is None:
+            self.__display.display_image(images_4x4)
+        else:
+            cv2.imshow('Images', images_4x4)
+            cv2.waitKey(1)
 
         non_zero_count = cv2.countNonZero(self._mask_global)  
         self._perc_complete = 100 * non_zero_count / (width*height)
         print(f'image {self._image_index}: remaining pixels associated with people: {100-self._perc_complete:.3f} %', end='\r')
+
 
     @abstractmethod
     def next_image_impl(self, image):

@@ -9,6 +9,7 @@ from enum import Enum
 from random import random
 from detector.detectorbase import DetectorBase
 
+
 class ArgTypeMixin(Enum):
 
     @classmethod
@@ -39,19 +40,13 @@ class YoloOnnxDetector(DetectorBase):
         self.__method = method
         self.__box_upscale = box_upscale
 
-        self.__net = cv2.dnn.readNet('yolov7_736x1280.onnx')
-#        self.__net = cv2.dnn.readNet('yolov7-tiny_736x1280.onnx')        
+        self.__net = cv2.dnn.readNet('./assets/weights/yolov7_736x1280.onnx')
         self.__net_width = 1280
         self.__net_height = 736
-
-#        self.__net = cv2.dnn.readNet('yolov7-tiny_384x640.onnx')        
-#        self.__net_width = 640
-#        self.__net_height = 384
 
         self.__conf = conf_thresh
         self.__nms = nms_thresh
         self.__score = score_thresh
-
 
     @property
     def method(self):
@@ -275,6 +270,7 @@ class YoloOnnxDetector(DetectorBase):
                 self._image_filtered = filtered_image
                 self.__stack.append(filtered_image)
 
+
     def detect(self, img):
         img_for_yolo, scale = self.__preprocess_image(img)
 
@@ -318,3 +314,5 @@ class YoloOnnxDetector(DetectorBase):
 
         outfile = f'{str(image_folder)}_{self.name_detailed}.jpg'
         cv2.imwrite(outfile, final_result)
+
+        return outfile

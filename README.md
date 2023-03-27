@@ -6,9 +6,7 @@
 
 # The Tourist Filter
 
-This app was created to allow nature photography in crowded tourist spots via improved median stacking methods. I wrote it because I made a couple of image stacks during a trip to Island and discovered that median stacking of the images in Photoshop does not produce satisfying results out of the box. The improved median stacking algorithms implemented here will work much better! The basic idea is to combine an object detector like YOLOv7 and preprocess the images in a way that will make median stacking more likely to succeed.
-
-![screenshot](https://user-images.githubusercontent.com/2202567/228079613-8cb2c70c-6b01-4260-9095-a833d162933a.jpg)
+This app was created to allow nature photography in crowded tourist spots via improved median stacking methods. I wrote it because I made a couple of image stacks during a trip to Island and discovered that median stacking of the images in Photoshop does not produce satisfying results out of the box. The improved median stacking algorithms implemented here will work much better. The basic idea is to combine an object detector like YOLOv7 and preprocess the images in a way that will make median stacking more likely to succeed.
 
 For this purpose i implemented several methods of preprocessing the stack with the help of the YOLOv7 object detector trained on the COCO dataset. 
 
@@ -22,6 +20,8 @@ You can find more details on the accompanying web page:
 
 To use this script you need a stack of images either taken on a tripod or aligned by other means. The images should be taken a couple of seconds apart
 and you should have enough images so that every part of the scene is free of peopla in at least one image.
+
+![screenshot](https://user-images.githubusercontent.com/2202567/228079613-8cb2c70c-6b01-4260-9095-a833d162933a.jpg)
 
 ## Usage
 

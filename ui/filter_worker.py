@@ -7,15 +7,19 @@ from ui.image_dialog import *
 
 
 class FilterWorker(QObject):
-    finished = pyqtSignal(str)
+    finished = pyqtSignal()
 
     def __init__(self, detector : YoloOnnxDetector, input_folder):
         super().__init__()
         self.__detector = detector
         self.__input_folder = input_folder
+        self.__output_file = None
 
+    @property
+    def output_file(self):
+        return self.__output_file
+    
     def run(self):
-        outputfile = self.__detector.process_folder(pathlib.Path(self.__input_folder))
-
-        ImageDialog(outputfile).exec()
-        self.finished.emit(outputfile)
+        self.__output_file = self.__detector.process_folder(pathlib.Path(self.__input_folder))
+#        ImageDialog(self.__output_file).exec()
+        self.finished.emit()

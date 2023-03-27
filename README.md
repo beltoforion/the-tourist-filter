@@ -1,3 +1,7 @@
+[![GitHub issues](https://img.shields.io/github/issues/beltoforion/the-tourist-filter.svg?maxAge=360)](https://github.com/beltoforion/the-tourist-filter/issues)
+[![Version](https://img.shields.io/github/release/beltoforion/the-tourist-filter.svg?maxAge=360)](https://github.com/beltoforion/the-tourist-filter/blob/master/CHANGELOG)
+[![Github All Releases](https://img.shields.io/github/downloads/beltoforion/the-tourist-filter/total.svg)](https://github.com/beltoforion/the-tourist-filter/releases/tag/v1.1.0)
+
 ![titel-touristenfilter](https://user-images.githubusercontent.com/2202567/201741382-95196fa1-45ee-40a6-9748-07e513c77d85.jpg)
 
 # The Tourist Filter

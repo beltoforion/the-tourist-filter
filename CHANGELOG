@@ -1,0 +1,14 @@
+The Tourist-Filter
+Copyright (C) 2023 Ingo Berg
+
+=======================================================================
+    https://beltoforion.de/en/the-tourist-filter
+=======================================================================
+
+History:
+--------
+
+Rev 1.0.0 2023-03-28
+--------------------
+Changes:
+   * Added pyqt based UI and release packages

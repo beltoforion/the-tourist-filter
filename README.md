@@ -4,7 +4,9 @@
 
 ![titel-touristenfilter](https://user-images.githubusercontent.com/2202567/201741382-95196fa1-45ee-40a6-9748-07e513c77d85.jpg)
 
-# The Tourist Filter - Removing People from images
+# The Tourist Filter
+
+## Removing People from images
 
 This app was created to allow nature photography in crowded tourist spots via improved median stacking methods. I wrote it because I made a couple of image stacks during a trip to Island and discovered that median stacking of the images in Photoshop does not produce satisfying results out of the box. The improved median stacking algorithms implemented here will work much better. The basic idea is to combine an object detector like YOLOv7 and preprocess the images in a way that will make median stacking more likely to succeed.
 

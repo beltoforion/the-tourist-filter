@@ -7,10 +7,22 @@ from PyQt6.QtGui import *
 from detector.yoloonnxdetector import *
 from detector.displaybase import DisplayBase
 
-from ui.filter_worker import FilterWorker
+from ui.filter_worker import FilterThread
 from ui.image_dialog import *
 
+
 class UiController(DisplayBase):
+    def show_error(self, exc : Exception):
+        msgBox = QMessageBox()
+        msgBox.setIcon(QMessageBox.Icon.Critical)
+        msgBox.setText(str(exc))
+        msgBox.setWindowTitle("An error occured")
+        msgBox.setMinimumWidth(500)
+        msgBox.setMinimumHeight(100)
+        msgBox.setStandardButtons(QMessageBox.StandardButton.Ok)
+        msgBox.setDefaultButton(QMessageBox.StandardButton.Ok)
+        msgBox.exec()
+
     def __init__(self, detector : YoloOnnxDetector):
         detector.setDisplay(self)
 
@@ -19,9 +31,7 @@ class UiController(DisplayBase):
 
         self.__app = QApplication([])
         self.__window = QWidget() 
-
         self.__window.setWindowTitle("Magic Stack - The Tourist Filter")
-
 
         self.__buttonMedian = QRadioButton('Median')
         self.__buttonCut = QRadioButton('Cut')
@@ -53,11 +63,11 @@ class UiController(DisplayBase):
             return RemovalMethod.MEDIAN
         elif self.__buttonCut.isChecked():
             return RemovalMethod.CUT
-        elif self.__buttonCutAndMedian.isChecked:
+        elif self.__buttonCutAndMedian.isChecked():
             return RemovalMethod.CUT_AND_MEDIAN
-        elif self.__buttonNoiseAndMedian.isChecked:
+        elif self.__buttonNoiseAndMedian.isChecked():
             return RemovalMethod.NOISE_AND_MEDIAN
-        elif self.__buttonInpaintAndMedian.isChecked:
+        elif self.__buttonInpaintAndMedian.isChecked():
             return RemovalMethod.INPAINT_AND_MEDIAN
 
 
@@ -77,24 +87,13 @@ class UiController(DisplayBase):
     def on_start(self):
         self.__buttonStart.setEnabled(False)
 
-        self.__thread = QThread()
-        self.__worker = FilterWorker(self._detector, self._input_folder, self._method)
-        self.__worker.moveToThread(self.__thread)
-
-        self.__thread.started.connect(self.__worker.run)
-        self.__worker.finished.connect(self.__thread.quit)
+        self.__worker = FilterThread(self._detector, self._input_folder, self._method)
         self.__worker.finished.connect(self.__worker.deleteLater)
-        self.__thread.finished.connect(self.__thread.deleteLater)
-        self.__worker.finished.connect(
-            lambda: ImageDialog(self.__worker.output_file).exec()
-        )
+        self.__worker.finished.connect(lambda: self.__buttonStart.setEnabled(True) )
+        self.__worker.success.connect(lambda file_path: ImageDialog(file_path).exec() )
+        self.__worker.failure.connect(lambda exc: self.show_error(exc) )        
 
-        self.__thread.start()
-
-        self.__thread.finished.connect(
-            lambda: self.__buttonStart.setEnabled(True)
-        )
-
+        self.__worker.start()
 
     def on_select_image_folder(self):
         dlg = QFileDialog()

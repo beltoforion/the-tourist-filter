@@ -291,7 +291,11 @@ class YoloOnnxDetector(DetectorBase):
 
     def process_folder(self, image_folder: pathlib.Path):
         num_images = len(glob.glob1(str(image_folder),"*.jpg"))
-        print(f'\n{self.name}: processing folder {str(image_folder)} with {num_images} images:')
+
+        if num_images < 2:
+            raise Exception(f'\nNot enough jpeg image files found in input folder {str(image_folder)}')
+        
+        print(f'\n{self.method}: processing folder {str(image_folder)} with {num_images} images:')
 
         self.start()
 

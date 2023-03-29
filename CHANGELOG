@@ -8,6 +8,12 @@ Copyright (C) 2023 Ingo Berg
 History:
 --------
 
+Rev 1.0.1 2023-03-29
+--------------------
+Bugfixes:
+   * selected filter method was ignored
+   * crash when opening a folder without enough images
+
 Rev 1.0.0 2023-03-28
 --------------------
 Changes:

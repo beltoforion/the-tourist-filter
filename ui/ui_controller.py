@@ -17,20 +17,20 @@ class UiController(DisplayBase):
         self.__buttonFont = QFont("Arial", 14)
         self.__textFont = QFont("Arial", 12)
 
-        self._app = QApplication([])
-        self._window = QWidget() 
+        self.__app = QApplication([])
+        self.__window = QWidget() 
 
-        self._window.setWindowTitle("Magic Stack - The Tourist Filter")
+        self.__window.setWindowTitle("Magic Stack - The Tourist Filter")
 
 
-        self._buttonMedian = QRadioButton('Median')
-        self._buttonCut = QRadioButton('Cut')
-        self._buttonCutAndMedian = QRadioButton('Cut and Median')
-        self._buttonNoiseAndMedian = QRadioButton('Noise and Median')
-        self._buttonInpaintAndMedian = QRadioButton('Inpaint and Median')
+        self.__buttonMedian = QRadioButton('Median')
+        self.__buttonCut = QRadioButton('Cut')
+        self.__buttonCutAndMedian = QRadioButton('Cut and Median')
+        self.__buttonNoiseAndMedian = QRadioButton('Noise and Median')
+        self.__buttonInpaintAndMedian = QRadioButton('Inpaint and Median')
 
-        self._buttonStart = QPushButton("Start")
-        self._buttonStart.setEnabled(False)
+        self.__buttonStart = QPushButton("Start")
+        self.__buttonStart.setEnabled(False)
 
 #        self._image = QImage(800, 600, QImage.Format.Format_RGB32)
         self._image = QImage("./assets/images/title.jpg")
@@ -46,19 +46,19 @@ class UiController(DisplayBase):
     @input_folder.setter
     def input_folder(self, value):
         self._input_folder = value
-        self._buttonStart.setEnabled(os.path.exists(self._input_folder))
+        self.__buttonStart.setEnabled(os.path.exists(self._input_folder))
 
     @property
     def _method(self):
-        if self._buttonMedian.isChecked():
+        if self.__buttonMedian.isChecked():
             return RemovalMethod.MEDIAN
-        elif self._buttonCut.isChecked():
+        elif self.__buttonCut.isChecked():
             return RemovalMethod.CUT
-        elif self._buttonCutAndMedian.isChecked:
+        elif self.__buttonCutAndMedian.isChecked:
             return RemovalMethod.CUT_AND_MEDIAN
-        elif self._buttonNoiseAndMedian.isChecked:
+        elif self.__buttonNoiseAndMedian.isChecked:
             return RemovalMethod.NOISE_AND_MEDIAN
-        elif self._buttonInpaintAndMedian.isChecked:
+        elif self.__buttonInpaintAndMedian.isChecked:
             return RemovalMethod.INPAINT_AND_MEDIAN
 
 
@@ -68,19 +68,19 @@ class UiController(DisplayBase):
             method = RemovalMethod.INPAINT_AND_MEDIAN
 
         self._detector.method = method
-        self._buttonMedian.setChecked(method==RemovalMethod.MEDIAN)
-        self._buttonCut.setChecked(method==RemovalMethod.CUT)
-        self._buttonCutAndMedian.setChecked(method==RemovalMethod.CUT_AND_MEDIAN)
-        self._buttonNoiseAndMedian.setChecked(method==RemovalMethod.NOISE_AND_MEDIAN)
-        self._buttonInpaintAndMedian.setChecked(method==RemovalMethod.INPAINT_AND_MEDIAN)
+        self.__buttonMedian.setChecked(method==RemovalMethod.MEDIAN)
+        self.__buttonCut.setChecked(method==RemovalMethod.CUT)
+        self.__buttonCutAndMedian.setChecked(method==RemovalMethod.CUT_AND_MEDIAN)
+        self.__buttonNoiseAndMedian.setChecked(method==RemovalMethod.NOISE_AND_MEDIAN)
+        self.__buttonInpaintAndMedian.setChecked(method==RemovalMethod.INPAINT_AND_MEDIAN)
 
 
     def on_start(self):
-        self._buttonStart.setEnabled(False)
+        self.__buttonStart.setEnabled(False)
 
         self.__thread = QThread()
-        self.__worker = FilterWorker(self._detector, self._input_folder)
-        self.__worker.moveToThread(self.__thread)#
+        self.__worker = FilterWorker(self._detector, self._input_folder, self._method)
+        self.__worker.moveToThread(self.__thread)
 
         self.__thread.started.connect(self.__worker.run)
         self.__worker.finished.connect(self.__thread.quit)
@@ -90,7 +90,7 @@ class UiController(DisplayBase):
         self.__thread.start()
 
         self.__thread.finished.connect(
-            lambda: self._buttonStart.setEnabled(True)
+            lambda: self.__buttonStart.setEnabled(True)
         )
 
 
@@ -155,17 +155,17 @@ class UiController(DisplayBase):
         group.setLayout(groupLayout)
 
         buttonGroup = QButtonGroup()
-        buttonGroup.addButton(self._buttonMedian)
-        buttonGroup.addButton(self._buttonCut)
-        buttonGroup.addButton(self._buttonCutAndMedian)        
-        buttonGroup.addButton(self._buttonNoiseAndMedian)        
-        buttonGroup.addButton(self._buttonInpaintAndMedian)        
+        buttonGroup.addButton(self.__buttonMedian)
+        buttonGroup.addButton(self.__buttonCut)
+        buttonGroup.addButton(self.__buttonCutAndMedian)        
+        buttonGroup.addButton(self.__buttonNoiseAndMedian)        
+        buttonGroup.addButton(self.__buttonInpaintAndMedian)        
 
-        groupLayout.addWidget(self._buttonMedian)
-        groupLayout.addWidget(self._buttonCut)
-        groupLayout.addWidget(self._buttonCutAndMedian)
-        groupLayout.addWidget(self._buttonNoiseAndMedian)
-        groupLayout.addWidget(self._buttonInpaintAndMedian)                                
+        groupLayout.addWidget(self.__buttonMedian)
+        groupLayout.addWidget(self.__buttonCut)
+        groupLayout.addWidget(self.__buttonCutAndMedian)
+        groupLayout.addWidget(self.__buttonNoiseAndMedian)
+        groupLayout.addWidget(self.__buttonInpaintAndMedian)                                
 
         #
         #
@@ -175,11 +175,11 @@ class UiController(DisplayBase):
         groupStartLayout = QVBoxLayout()
         groupStartLayout.setAlignment(Qt.AlignmentFlag.AlignCenter)
         groupStart.setLayout(groupStartLayout)
-        self._buttonStart.setMaximumSize(250, 80)
-        self._buttonStart.setFont(self.__buttonFont)
-        self._buttonStart.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
-        self._buttonStart.clicked.connect(self.on_start)
-        groupStartLayout.addWidget(self._buttonStart)
+        self.__buttonStart.setMaximumSize(250, 80)
+        self.__buttonStart.setFont(self.__buttonFont)
+        self.__buttonStart.setSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Expanding)
+        self.__buttonStart.clicked.connect(self.on_start)
+        groupStartLayout.addWidget(self.__buttonStart)
 
         #
         # Image Label
@@ -196,6 +196,6 @@ class UiController(DisplayBase):
         gridLayout.addWidget(groupStart, 0, 2)
         gridLayout.addWidget(self.__label_image, 1, 0, 1, 3)
 
-        self._window.setLayout(gridLayout)
-        self._window.show()
-        self._app.exec()
+        self.__window.setLayout(gridLayout)
+        self.__window.show()
+        self.__app.exec()

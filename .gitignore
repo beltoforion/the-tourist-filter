@@ -8,5 +8,9 @@ stack5/*
 stack6/*
 *.mp4
 *.tgz
+*.zip
 build/tourist-filter/*
 tourist-filter-linux/*
+tourist-filter-win/*
+*.spec
+*.spec

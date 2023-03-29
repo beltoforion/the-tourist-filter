@@ -15,7 +15,7 @@ class ImageDialog(QDialog):
         
         # Create a label widget to display the image
         self.label = QLabel(self)
-        self.label.setPixmap(QPixmap.fromImage(self.image))
+        self.label.setPixmap(QPixmap.fromImage(self.image).scaledToWidth(1000))
         
         # Create a layout for the dialog window and add the label widget to it
         layout = QVBoxLayout()

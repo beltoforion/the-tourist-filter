@@ -32,9 +32,8 @@ class UiController(DisplayBase):
         self.__buttonStart = QPushButton("Start")
         self.__buttonStart.setEnabled(False)
 
-#        self._image = QImage(800, 600, QImage.Format.Format_RGB32)
         self._image = QImage("./assets/images/title.jpg")
-
+#        ImageDialog("stack5_yolo_NOISE_AND_MEDIAN_1280x736_conf=0.01_nms=0.9_sc=0.1_boxus=1.05x1.1.jpg").exec()
         self._input_folder = None
         self._detector = detector
         self._method = detector.method
@@ -86,6 +85,9 @@ class UiController(DisplayBase):
         self.__worker.finished.connect(self.__thread.quit)
         self.__worker.finished.connect(self.__worker.deleteLater)
         self.__thread.finished.connect(self.__thread.deleteLater)
+        self.__worker.finished.connect(
+            lambda: ImageDialog(self.__worker.output_file).exec()
+        )
 
         self.__thread.start()
 

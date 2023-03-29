@@ -8,7 +8,8 @@ from detector.displaybase import DisplayBase
 class DetectorBase(ABC):
     def __init__(self, name):
         self._name = name
-
+        self.__display = None
+        
     def start(self):
         self._mask = None
         self._mask_sum = None

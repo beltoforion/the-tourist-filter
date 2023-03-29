@@ -22,5 +22,6 @@ class FilterWorker(QObject):
 
 
     def run(self):
+        self.__detector.method = self.__method
         self.__output_file = self.__detector.process_folder(pathlib.Path(self.__input_folder))
         self.finished.emit()

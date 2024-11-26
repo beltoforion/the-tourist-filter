@@ -37,6 +37,7 @@ python ./filter-all-tourists.py -i ./stack1 -m CUT
 <b>-m</b><br/> Select the method to use. Options are CUT, CUT_AND_MEDIAN, MEDIAN, NOISE_AND_MEDIAN, INPAINT_AND_MEDIAN
 <br/><br/>
 <b>-v</b><br/> Name of a video file for debug purposes.
+<b>-n</b><br/> Disable output window.
 
 ## Example
 

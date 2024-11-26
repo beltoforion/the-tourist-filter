@@ -111,9 +111,6 @@ class DetectorBase(ABC):
 
         if not self.__display is None:
             self.__display.display_image(images_4x4)
-        else:
-            cv2.imshow('Images', images_4x4)
-            cv2.waitKey(1)
 
         non_zero_count = cv2.countNonZero(self._mask_global)  
         self._perc_complete = 100 * non_zero_count / (width*height)

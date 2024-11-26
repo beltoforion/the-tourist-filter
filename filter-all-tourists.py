@@ -3,6 +3,7 @@ import argparse
 import pathlib
 
 from detector.yoloonnxdetector import *
+from detector.displaybase import *
 from ui.ui_controller import *
 
 
@@ -14,7 +15,8 @@ def dir_or_file(path : str):
 
 
 def main():
-    parser = argparse.ArgumentParser(description='The Impossible Camera - Exterminate all humans from an image stack')
+    parser = argparse.ArgumentParser(description='The Tourist Filer - Exterminate all humans from an image stack')
+    parser.add_argument("-n", "--hideUi", dest="hide_ui", action="store_true", help="Disable Ui")
     parser.add_argument("-i", "--Input", dest="input", help='The folder to run this script on', required=False, type=str)
     parser.add_argument("-m", "--Method", dest="method", type=RemovalMethod.argtype, choices=RemovalMethod, help='The method of people removal', required=False, default=RemovalMethod.INPAINT_AND_MEDIAN)
     parser.add_argument("-v", dest="video_file", help='Name of output video', required=False, type=str, default=None)
@@ -33,6 +35,12 @@ def main():
         print(f' - input: {args.input}')
         print(f' - method: {args.method}')    
         print(f' - output_video: {args.video_file}')    
+        print(f' - hide ui: {args.hide_ui}')    
+
+        if args.hide_ui:
+            detector.setDisplay(NullDisplay())
+        else:
+            detector.setDisplay(OpenCvDisplay())
 
         input = pathlib.Path(args.input)
         if not input.exists():
